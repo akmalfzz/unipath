@@ -48,6 +48,8 @@ import com.example.unipath.ui.theme.ButtonPrimary
 import com.example.unipath.ui.theme.CatcareexpertsystemTheme
 import com.example.unipath.ui.theme.Primary
 import com.example.unipath.ui.theme.Tombol
+import androidx.compose.material3.IconButton
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -66,12 +68,16 @@ fun InputpetNameScreen(navController: NavHostController, items: HomeScreenItems)
                     actionIconContentColor = Color.Black
                 ),
                 navigationIcon = {
+                    IconButton(onClick = { navController.navigate(Graph.HOME) }) {
+                        
+
                     Icon(
                         modifier = Modifier
                             .width(32.dp)
                             .height(32.dp),
                         imageVector = Icons.Filled.ArrowBack, contentDescription = "back button"
                     )
+                    }
                 },
                 title = {
                     Text(
@@ -99,7 +105,9 @@ fun InputpetNameScreen(navController: NavHostController, items: HomeScreenItems)
                     )
 
                     OutlinedTextField(
-                        modifier = Modifier.fillMaxWidth() .padding(bottom = 40.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 40.dp),
                         colors = TextFieldDefaults.outlinedTextFieldColors(
                             focusedBorderColor = Primary,
                             unfocusedBorderColor = Primary,

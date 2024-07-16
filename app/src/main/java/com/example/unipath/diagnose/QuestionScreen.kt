@@ -33,6 +33,7 @@ import com.example.unipath.ui.theme.CatcareexpertsystemTheme
 import com.example.unipath.ui.theme.Primary
 import com.example.unipath.ui.theme.Tombol
 
+
 @Composable
 fun QuestionScreen(navController: NavHostController) {
     val viewmodel: DiagnoseViewmodel = viewModel()

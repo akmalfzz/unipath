@@ -36,10 +36,14 @@ import com.example.unipath.diagnose.DiagnoseViewmodel
 import com.example.unipath.ui.theme.Bg
 import com.example.unipath.ui.theme.CatcareexpertsystemTheme
 import com.example.unipath.ui.theme.Primary
+import androidx.compose.material3.IconButton
+import androidx.navigation.NavHostController
+import com.example.unipath.route.Graph
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HistoryScreen() {
+fun HistoryScreen(navHostController: NavHostController) {
     val context = LocalContext.current
     val viewModel: DiagnoseViewmodel = viewModel()
     val historyList = viewModel.getDiagnoseHistory(context)
@@ -54,12 +58,14 @@ fun HistoryScreen() {
                     actionIconContentColor = Color.Black
                 ),
                 navigationIcon = {
-                    Icon(
-                        modifier = Modifier
-                            .width(32.dp)
-                            .height(32.dp),
-                        imageVector = Icons.Filled.ArrowBack, contentDescription = "back button"
-                    )
+                   IconButton(onClick = { navHostController.navigate(Graph.HOME) }) {
+                        Icon(
+                            modifier = Modifier
+                                .width(32.dp)
+                                .height(32.dp),
+                            imageVector = Icons.Filled.ArrowBack, contentDescription = "back button"
+                        )
+                   }
                 },
                 title = {
                     Text(

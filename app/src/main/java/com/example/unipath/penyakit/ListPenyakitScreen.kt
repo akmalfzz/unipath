@@ -34,10 +34,14 @@ import androidx.compose.ui.unit.dp
 import com.example.unipath.ui.theme.Bg
 import com.example.unipath.ui.theme.CatcareexpertsystemTheme
 import com.example.unipath.ui.theme.Primary
+import androidx.compose.material3.IconButton
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.unipath.route.Graph
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListPenyakitScreen(listPenyakit: List<Penyakit>) {
+fun ListPenyakitScreen(listPenyakit: List<Penyakit>,navHostController: NavHostController) {
 
     Scaffold(
         topBar = {
@@ -50,12 +54,16 @@ fun ListPenyakitScreen(listPenyakit: List<Penyakit>) {
                     actionIconContentColor = Color.Black
                 ),
                 navigationIcon = {
+                    IconButton(onClick =  { navHostController.navigate(Graph.HOME) }) {
+
+
                     Icon(
                         modifier = Modifier
                             .width(32.dp)
                             .height(32.dp),
                         imageVector = Icons.Filled.ArrowBack, contentDescription = "back button"
                     )
+                    }
                 },
                 title = {
                     Text(
@@ -130,6 +138,7 @@ fun ListPenyakitScreenPreview() {
             Penyakit(1, "p1", "Cacingan", "banyak cacing"),
             Penyakit(1, "p1", "Cacingan", "banyak cacing"),
         )
-        ListPenyakitScreen(listPenyakit = sampleHistory)
+        val mockNavController = rememberNavController()
+        ListPenyakitScreen(listPenyakit = sampleHistory, navHostController = mockNavController)
     }
 }
