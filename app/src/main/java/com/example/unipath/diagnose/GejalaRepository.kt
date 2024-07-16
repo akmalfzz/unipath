@@ -1,0 +1,23 @@
+package com.example.unipath.diagnose
+
+import com.example.unipath.utils.SupabaseClient
+import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.query.Columns
+
+class GejalaRepository {
+    private val supabase = SupabaseClient.client
+
+    suspend fun getData(): List<Gejala> {
+        return  supabase
+            .from("minat")
+            .select(Columns.ALL)
+            .decodeList<Gejala>()
+    }
+
+    suspend fun getGejalaPenyakit(): List<GejalaPenyakit> {
+        return supabase
+            .from("jurusan_minat")
+            .select(Columns.ALL)
+            .decodeList<GejalaPenyakit>()
+    }
+}
