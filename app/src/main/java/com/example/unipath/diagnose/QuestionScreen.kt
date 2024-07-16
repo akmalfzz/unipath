@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -27,8 +28,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.unipath.route.Graph
+import com.example.unipath.ui.theme.Bg
 import com.example.unipath.ui.theme.CatcareexpertsystemTheme
 import com.example.unipath.ui.theme.Primary
+import com.example.unipath.ui.theme.Tombol
 
 @Composable
 fun QuestionScreen(navController: NavHostController) {
@@ -41,7 +44,7 @@ fun QuestionScreen(navController: NavHostController) {
 
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(Primary)
+        .background(Bg)
         .padding(16.dp)
     ) {
         currentQuestion?.let {
@@ -68,10 +71,10 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
 
     Column {
         Text(
-            text = "Hasil Diagnosa:",
+            text = "Hasil Tes:",
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.padding(bottom = 16.dp),
-            color = Color.White
+            color = Color.Black
 
 
         )
@@ -80,7 +83,7 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
                 text = "${result.penyakit} : ${"%.2f".format(result.cf)}%",
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(bottom = 8.dp),
-                color = Color.White
+                color = Color.Black
 
             )
         }
@@ -94,14 +97,14 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
                     text = "Kesimpulan: ${it.penyakit} dengan tingkat kepercayaan ${"%.2f".format(it.cf)}%",
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier.padding(bottom = 16.dp),
-                    color = Color.White
+                    color = Color.Black
                 )
             }else{
                 Text(
-                    text = "Kesimpulan: kucing anda tidak sakit",
+                    text = "Tidak ada jurusan yang cocok",
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier.padding(bottom = 16.dp),
-                    color = Color.White
+                    color = Color.Black
                 )
             }
         }
@@ -133,11 +136,15 @@ fun QuestionCard(question: Gejala, onYesClick: () -> Unit, onNoClick: () -> Unit
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Button(onClick = onYesClick) {
-                    Text(text = "Yes")
+                Button(
+                    onClick = onYesClick,
+                    colors = ButtonDefaults.buttonColors(Tombol)) {
+                    Text(text = "Ya")
                 }
-                Button(onClick = onNoClick) {
-                    Text(text = "No")
+                Button(
+                    onClick = onNoClick,
+                    colors = ButtonDefaults.buttonColors(Tombol)) {
+                    Text(text = "Tidak")
                 }
             }
         }

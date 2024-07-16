@@ -1,6 +1,9 @@
 package com.example.unipath.history
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
@@ -29,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.unipath.diagnose.DiagnoseViewmodel
+import com.example.unipath.ui.theme.Bg
 import com.example.unipath.ui.theme.CatcareexpertsystemTheme
 import com.example.unipath.ui.theme.Primary
 
@@ -43,21 +48,23 @@ fun HistoryScreen() {
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Primary,
-                    navigationIconContentColor = Color.White,
-                    titleContentColor = Color.White,
-                    actionIconContentColor = Color.White
+                    containerColor = Bg,
+                    navigationIconContentColor = Color.Black,
+                    titleContentColor = Color.Black,
+                    actionIconContentColor = Color.Black
                 ),
                 navigationIcon = {
                     Icon(
-                        modifier = Modifier.width(32.dp).height(32.dp),
+                        modifier = Modifier
+                            .width(32.dp)
+                            .height(32.dp),
                         imageVector = Icons.Filled.ArrowBack, contentDescription = "back button"
                     )
                 },
                 title = {
                     Text(
-                        text = "Riwayat Diagnosa",
-                        style = MaterialTheme.typography.headlineMedium.copy(color = Color.White),
+                        text = "Riwayat Tes",
+                        style = MaterialTheme.typography.headlineMedium.copy(color = Color.Black),
                     )
                 })
         }
@@ -65,7 +72,7 @@ fun HistoryScreen() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFF1E1E2E))
+                .background(Bg)
                 .padding(vertical = it.calculateTopPadding(), horizontal = 16.dp)
         ) {
 
@@ -86,26 +93,28 @@ fun HistoryScreen() {
 
 @Composable
 fun CardHistory(petName: String, diagnoseResult: String, date: String) {
-    Card(
-        colors = CardColors(
-            containerColor = Color.White,
-            contentColor = Color.Black,
-            disabledContentColor = Color.Black,
-            disabledContainerColor = Color.White
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = petName, style = MaterialTheme.typography.headlineSmall)
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = diagnoseResult, style = MaterialTheme.typography.bodyMedium)
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = date, style = MaterialTheme.typography.bodySmall)
+
+        Card(
+            colors = CardColors(
+                containerColor = Color.White,
+                contentColor = Color.Black,
+                disabledContentColor = Color.Black,
+                disabledContainerColor = Color.Black,
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+                .border(BorderStroke(2.dp, Color.Black), shape = RoundedCornerShape(12.dp))
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(text = petName, style = MaterialTheme.typography.headlineSmall)
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = diagnoseResult, style = MaterialTheme.typography.bodyMedium)
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = date, style = MaterialTheme.typography.bodySmall)
+            }
         }
     }
-}
 
 @Preview
 @Composable

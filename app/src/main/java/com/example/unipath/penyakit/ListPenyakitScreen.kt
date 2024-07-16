@@ -1,6 +1,9 @@
 package com.example.unipath.penyakit
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CardColors
@@ -27,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.unipath.ui.theme.Bg
 import com.example.unipath.ui.theme.CatcareexpertsystemTheme
 import com.example.unipath.ui.theme.Primary
 
@@ -38,11 +43,11 @@ fun ListPenyakitScreen(listPenyakit: List<Penyakit>) {
         topBar = {
             TopAppBar(
                 colors = TopAppBarColors(
-                    containerColor = Primary,
-                    scrolledContainerColor = Primary,
-                    navigationIconContentColor = Color.White,
-                    titleContentColor = Color.White,
-                    actionIconContentColor = Color.White
+                    containerColor = Bg,
+                    scrolledContainerColor = Bg,
+                    navigationIconContentColor = Color.Black,
+                    titleContentColor = Color.Black,
+                    actionIconContentColor = Color.Black
                 ),
                 navigationIcon = {
                     Icon(
@@ -54,8 +59,8 @@ fun ListPenyakitScreen(listPenyakit: List<Penyakit>) {
                 },
                 title = {
                     Text(
-                        text = "List Penyakit",
-                        style = MaterialTheme.typography.headlineMedium.copy(color = Color.White),
+                        text = "Deskripsi Jurusan",
+                        style = MaterialTheme.typography.headlineMedium.copy(color = Color.Black),
                     )
                 })
         }
@@ -63,14 +68,14 @@ fun ListPenyakitScreen(listPenyakit: List<Penyakit>) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Primary)
+                .background(Bg)
                 .padding(vertical = it.calculateTopPadding(), horizontal = 16.dp)
         ) {
             if (listPenyakit.isEmpty()) {
                 Text(
                     text = "...loading",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color.White,
+                    color = Color.Black,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
 
@@ -92,28 +97,28 @@ fun ListPenyakitScreen(listPenyakit: List<Penyakit>) {
 
 @Composable
 fun CardListPenyakit(penyakitName: String, deskripsi: String) {
-    ElevatedCard(
-        colors = CardColors(
-            containerColor = Color.White,
-            contentColor = Color.Black,
-            disabledContentColor = Color.Black,
-            disabledContainerColor = Color.White,
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
 
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
+        ElevatedCard(
+            colors = CardColors(
+                containerColor = Color.White,
+                contentColor = Color.Black,
+                disabledContentColor = Color.Black,
+                disabledContainerColor = Color.Black,
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+                .border(BorderStroke(2.dp, Primary), shape = RoundedCornerShape(12.dp))
         ) {
-            Text(text = penyakitName, style = MaterialTheme.typography.headlineSmall)
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = deskripsi, style = MaterialTheme.typography.bodyLarge)
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text(text = penyakitName, style = MaterialTheme.typography.headlineSmall)
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = deskripsi, style = MaterialTheme.typography.bodyLarge)
+            }
         }
     }
-
-}
 
 @Preview
 @Composable

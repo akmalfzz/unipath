@@ -1,6 +1,7 @@
 package com.example.unipath.diagnose
 
 import android.content.Context
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -32,20 +34,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.unipath.R
+import com.example.unipath.home.HomeScreenItems
 import com.example.unipath.route.Graph
 import com.example.unipath.ui.theme.Bg
 import com.example.unipath.ui.theme.ButtonPrimary
 import com.example.unipath.ui.theme.CatcareexpertsystemTheme
 import com.example.unipath.ui.theme.Primary
+import com.example.unipath.ui.theme.Tombol
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InputpetNameScreen(navController: NavHostController) {
+fun InputpetNameScreen(navController: NavHostController, items: HomeScreenItems) {
     val context = LocalContext.current
     val viewmodel: DiagnoseViewmodel = viewModel()
     var text by remember { mutableStateOf("") }
@@ -54,7 +60,7 @@ fun InputpetNameScreen(navController: NavHostController) {
             TopAppBar(
                 colors = TopAppBarColors(
                     containerColor = Bg,
-                    scrolledContainerColor = Primary,
+                    scrolledContainerColor = Bg,
                     navigationIconContentColor = Color.Black,
                     titleContentColor = Color.Black,
                     actionIconContentColor = Color.Black
@@ -79,13 +85,21 @@ fun InputpetNameScreen(navController: NavHostController) {
                     .padding(it)
                     .fillMaxSize()
                     .background(Bg)
-                    .padding(30.dp),
+                    .padding(50.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,)
                 {
 
+                    Image(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(bottom = 20.dp),
+                        painter = painterResource(items.image),
+                        contentDescription = "unipath",
+                    )
+
                     OutlinedTextField(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth() .padding(bottom = 40.dp),
                         colors = TextFieldDefaults.outlinedTextFieldColors(
                             focusedBorderColor = Primary,
                             unfocusedBorderColor = Primary,
@@ -96,11 +110,17 @@ fun InputpetNameScreen(navController: NavHostController) {
                         onValueChange = { text = it },
                         label = { Text("Nama Anda") }
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
+
                     Button(onClick = {
                         viewmodel.clearResults()
                         savePetName(context,text,navController)
-                                     }, colors = ButtonDefaults.buttonColors( ButtonPrimary), modifier = Modifier.align(Alignment.End)) {
+                                     },
+                        colors = ButtonDefaults.buttonColors(Tombol),
+                        shape = RoundedCornerShape(10.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 40.dp)) {
+                        Spacer(modifier = Modifier.width(8.dp))
                         Text(text = "Lanjut", color = Color.White)
                     }
                 }
@@ -119,7 +139,9 @@ fun savePetName(context: Context, petName: String, navController: NavHostControl
 @Composable
 private fun InputFormPet() {
     CatcareexpertsystemTheme {
-        InputpetNameScreen(rememberNavController())
+        InputpetNameScreen(rememberNavController(),
+            items = HomeScreenItems(image = R.drawable.unipath)
+        )
     }
 
 }
