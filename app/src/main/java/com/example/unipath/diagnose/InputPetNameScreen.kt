@@ -128,7 +128,6 @@ fun InputpetNameScreen(navController: NavHostController, items: HomeScreenItems)
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 40.dp)) {
-                        Spacer(modifier = Modifier.width(8.dp))
                         Text(text = "Lanjut", color = Color.White)
                     }
                 }

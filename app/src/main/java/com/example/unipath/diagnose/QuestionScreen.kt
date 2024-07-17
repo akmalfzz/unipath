@@ -1,19 +1,24 @@
 package com.example.unipath.diagnose
 
 import android.content.Context
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -46,12 +52,12 @@ fun QuestionScreen(navController: NavHostController) {
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Bg)
-        .padding(16.dp)
+        .padding(20.dp)
     ) {
         currentQuestion?.let {
             QuestionCard(
                 question = it,
-                onYesClick = { viewmodel.answerQuestion(it.gejalaCode, 0.6) },
+                onYesClick = { viewmodel.answerQuestion(it.gejalaCode, 1.0) },
                 onNoClick = { viewmodel.answerQuestion(it.gejalaCode, cf = 0.0) }
             )
         }
@@ -70,90 +76,128 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
 
     val highestResult = results.maxByOrNull { it.cf }
 
-    Column {
-        Text(
-            text = "Hasil Tes:",
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(bottom = 16.dp),
-            color = Color.Black
-
-
-        )
-        results.forEach { result ->
-            Text(
-                text = "${result.penyakit} : ${"%.2f".format(result.cf)}%",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(bottom = 8.dp),
-                color = Color.Black
-
-            )
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-
+    Column(
+        modifier = Modifier
+        .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         highestResult?.let {
             if (it.cf > 0){
                 Text(
-                    text = "Kesimpulan: ${it.penyakit} dengan tingkat kepercayaan ${"%.2f".format(it.cf)}%",
+                    textAlign = TextAlign.Center,
+                    text = "Jurusan yang cocok adalah ${it.penyakit} (${"%.2f".format(it.cf)}%)",
                     style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(bottom = 16.dp),
+                    modifier = Modifier,
                     color = Color.Black
                 )
             }else{
                 Text(
+                    textAlign = TextAlign.Center,
                     text = "Tidak ada jurusan yang cocok",
                     style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(bottom = 16.dp),
+                    modifier = Modifier,
                     color = Color.Black
                 )
             }
         }
+
+        Column(
+            modifier = Modifier,
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Card(
+                colors = CardColors(
+                    containerColor = Color.White,
+                    contentColor = Color.Black,
+                    disabledContentColor = Color.Black,
+                    disabledContainerColor = Color.Black,
+                ),
+                modifier = Modifier
+                    .padding(20.dp)
+                    .border(BorderStroke(2.dp, Color.Black), shape = RoundedCornerShape(10.dp))
+            ) {
+                results.forEach { result ->
+                    Text(
+                        text = "${result.penyakit} : ${"%.2f".format(result.cf)}%",
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier
+                            .padding(start = 12.dp, end = 12.dp)
+                            .padding(top = 6.dp, bottom = 6.dp),
+                        color = Color.Black
+                    )
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
 
         Button(
             onClick = {
                 viewModel.saveDiagnoseResult(context, petName)
                 navController.navigate(Graph.SCREEN_HISTORY)
             },
-            modifier = Modifier.align(Alignment.End)
+            shape = RoundedCornerShape(10.dp),
+            colors = ButtonDefaults.buttonColors(Tombol),
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
-            Text(text = "Simpan")
+            Text(text = "Simpan", color = Color.White)
         }
     }
 }
 
 @Composable
 fun QuestionCard(question: Gejala, onYesClick: () -> Unit, onNoClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
 
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Card(
+            colors = CardColors(
+                containerColor = Color.White,
+                contentColor = Color.Black,
+                disabledContentColor = Color.Black,
+                disabledContainerColor = Color.Black,
+            ),
+            modifier = Modifier
+                .border(BorderStroke(2.dp, Color.Black), shape = RoundedCornerShape(10.dp))
         ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = question.gejalaName, style = MaterialTheme.typography.headlineSmall)
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+            Column(
+                modifier = Modifier
+                    .padding(20.dp),
             ) {
-                Button(
-                    onClick = onYesClick,
-                    colors = ButtonDefaults.buttonColors(Tombol)) {
-                    Text(text = "Ya")
-                }
-                Button(
-                    onClick = onNoClick,
-                    colors = ButtonDefaults.buttonColors(Tombol)) {
-                    Text(text = "Tidak")
+                Text(text = question.gejalaName, style = MaterialTheme.typography.headlineSmall)
+                Spacer(modifier = Modifier.height(20.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Button(
+                        onClick = onNoClick,
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(Tombol)
+                    ) {
+                        Text(text = "Tidak", color = Color.White)
+                    }
+                    Button(
+                        onClick = onYesClick,
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(Tombol)
+                    ) {
+                        Text(text = "Ya", color = Color.White)
+                    }
                 }
             }
         }
     }
 }
 
-
-@Preview()
+@Preview
 @Composable
 fun PreviewQuestionView() {
     CatcareexpertsystemTheme {

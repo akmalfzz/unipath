@@ -29,7 +29,7 @@ fun RootNav(
             ListPenyakitScreen(listPenyakit = listPenyakit,navHostController = navController)
         }
         composable(Graph.SCREEN_PET_NAME){
-            InputpetNameScreen(navController, items,)
+            InputpetNameScreen(navController, items)
         }
         composable(Graph.SCREEN_QUESTION){
             QuestionScreen(navController)
