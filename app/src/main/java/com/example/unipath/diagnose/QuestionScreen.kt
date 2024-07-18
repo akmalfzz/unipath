@@ -14,7 +14,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -27,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -78,7 +82,8 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
 
     Column(
         modifier = Modifier
-        .fillMaxSize(),
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -86,7 +91,11 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
             if (it.cf > 0){
                 Text(
                     textAlign = TextAlign.Center,
-                    text = "Jurusan yang cocok adalah ${it.penyakit} (${"%.2f".format(it.cf)}%)",
+                    text = buildAnnotatedString {
+                        append("Jurusan yang cocok adalah")
+                        append("\n")
+                        append("${it.penyakit} (${"%.2f".format(it.cf)}%)")
+                    },
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier,
                     color = Color.Black
@@ -123,12 +132,25 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
                         text = "${result.penyakit} : ${"%.2f".format(result.cf)}%",
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier
-                            .padding(start = 12.dp, end = 12.dp)
-                            .padding(top = 6.dp, bottom = 6.dp),
+                            .padding(start = 10.dp, end = 10.dp)
+                            .padding(top = 5.dp, bottom = 5.dp),
                         color = Color.Black
                     )
                 }
             }
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Button(
+            onClick = { navController.navigate(Graph.SCREEN_QUESTION) },
+            colors = ButtonDefaults.buttonColors(Bg),
+            border = BorderStroke(2.dp, Color.Black),
+            shape = RoundedCornerShape(10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Text(text = "Tes Ulang", color = Color.Black)
         }
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -143,8 +165,9 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            Text(text = "Simpan", color = Color.White)
+            Text(text = "Simpan Hasil", color = Color.White)
         }
+
     }
 }
 

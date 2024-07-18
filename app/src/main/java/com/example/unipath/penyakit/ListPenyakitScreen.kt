@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CardColors
@@ -35,34 +37,32 @@ import com.example.unipath.ui.theme.Bg
 import com.example.unipath.ui.theme.CatcareexpertsystemTheme
 import com.example.unipath.ui.theme.Primary
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.unipath.route.Graph
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListPenyakitScreen(listPenyakit: List<Penyakit>,navHostController: NavHostController) {
+fun ListPenyakitScreen(listPenyakit: List<Penyakit>, navHostController: NavHostController) {
 
     Scaffold(
         topBar = {
             TopAppBar(
-                colors = TopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Bg,
-                    scrolledContainerColor = Bg,
                     navigationIconContentColor = Color.Black,
                     titleContentColor = Color.Black,
                     actionIconContentColor = Color.Black
                 ),
                 navigationIcon = {
-                    IconButton(onClick =  { navHostController.navigate(Graph.HOME) }) {
-
-
-                    Icon(
-                        modifier = Modifier
-                            .width(32.dp)
-                            .height(32.dp),
-                        imageVector = Icons.Filled.ArrowBack, contentDescription = "back button"
-                    )
+                    IconButton(onClick = { navHostController.navigate(Graph.HOME) }) {
+                        Icon(
+                            modifier = Modifier
+                                .width(32.dp)
+                                .height(32.dp),
+                            imageVector = Icons.Filled.ArrowBack, contentDescription = "back button"
+                        )
                     }
                 },
                 title = {
@@ -72,61 +72,58 @@ fun ListPenyakitScreen(listPenyakit: List<Penyakit>,navHostController: NavHostCo
                     )
                 })
         }
-    ) {
+    ) { contentPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Bg)
-                .padding(vertical = it.calculateTopPadding(), horizontal = 16.dp)
+                .padding(contentPadding)
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState())
         ) {
             if (listPenyakit.isEmpty()) {
                 Text(
-                    text = "...loading",
+                    text = "Loading...",
                     style = MaterialTheme.typography.bodyLarge,
                     color = Color.Black,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
-
             } else {
-                LazyColumn {
-                    items(listPenyakit) { penyakit ->
-                        CardListPenyakit(
-                            penyakitName = penyakit.penyakit,
-                            deskripsi = penyakit.deskripsi
-                        )
-
-                    }
+                listPenyakit.forEach { penyakit ->
+                    CardListPenyakit(
+                        penyakitName = penyakit.penyakit,
+                        deskripsi = penyakit.deskripsi
+                    )
                 }
             }
         }
     }
-
 }
 
 @Composable
 fun CardListPenyakit(penyakitName: String, deskripsi: String) {
-
-        ElevatedCard(
-            colors = CardColors(
-                containerColor = Color.White,
-                contentColor = Color.Black,
-                disabledContentColor = Color.Black,
-                disabledContainerColor = Color.Black,
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-                .border(BorderStroke(2.dp, Primary), shape = RoundedCornerShape(12.dp))
+    ElevatedCard(
+        colors = CardColors(
+            containerColor = Color.White,
+            contentColor = Color.Black,
+            disabledContentColor = Color.Black,
+            disabledContainerColor = Color.Black,
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .border(BorderStroke(2.dp, Primary), shape = RoundedCornerShape(12.dp))
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
         ) {
-            Column(
-                modifier = Modifier.padding(16.dp)
-            ) {
-                Text(text = penyakitName, style = MaterialTheme.typography.headlineSmall)
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = deskripsi, style = MaterialTheme.typography.bodyLarge)
-            }
+            Text(text = penyakitName, style = MaterialTheme.typography.headlineSmall)
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = deskripsi, style = MaterialTheme.typography.bodyLarge)
         }
     }
+}
+
 
 @Preview
 @Composable

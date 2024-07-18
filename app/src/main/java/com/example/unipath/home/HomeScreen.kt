@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -25,6 +28,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,6 +53,8 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Bg)
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 16.dp)
             .padding(30.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -70,9 +76,8 @@ fun HomeScreen(
                 .fillMaxWidth()
                 .padding(bottom = 30.dp)
         ) {
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(text = "Mulai Tes", color = Color.Black)
-    }
+            Text(text = "Mulai Tes", color = Color.Black)
+        }
 
         Button(
             onClick = { navHostController.navigate(Graph.SCREEN_PENYAKIT) },
@@ -83,12 +88,11 @@ fun HomeScreen(
                 .fillMaxWidth()
                 .padding(bottom = 30.dp)
         ) {
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(text = "Deskripsi Jurusan", color = Color.Black)
-    }
+            Text(text = "Deskripsi Jurusan", color = Color.Black)
+        }
 
         Button(
-            onClick = { navHostController.navigate(Graph.SCREEN_HISTORY)},
+            onClick = { navHostController.navigate(Graph.SCREEN_HISTORY) },
             colors = ButtonDefaults.buttonColors(Bg),
             border = BorderStroke(2.dp, Color.Black),
             shape = RoundedCornerShape(10.dp),
@@ -96,22 +100,19 @@ fun HomeScreen(
                 .fillMaxWidth()
                 .padding(bottom = 30.dp)
         ) {
-            Spacer(modifier = Modifier.width(8.dp))
             Text(text = "Riwayat Tes", color = Color.Black)
         }
 
         Button(
-            onClick = { navHostController.navigate(Graph.SCREEN_HISTORY)},
+            onClick = { navHostController.navigate(Graph.SCREEN_HISTORY) },
             colors = ButtonDefaults.buttonColors(Bg),
             border = BorderStroke(2.dp, Color.Black),
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            Spacer(modifier = Modifier.width(8.dp))
             Text(text = "Tentang Kami", color = Color.Black)
         }
-
     }
 }
 

@@ -58,14 +58,14 @@ fun HistoryScreen(navHostController: NavHostController) {
                     actionIconContentColor = Color.Black
                 ),
                 navigationIcon = {
-                   IconButton(onClick = { navHostController.navigate(Graph.HOME) }) {
+                    IconButton(onClick = { navHostController.navigate(Graph.HOME) }) {
                         Icon(
                             modifier = Modifier
                                 .width(32.dp)
                                 .height(32.dp),
                             imageVector = Icons.Filled.ArrowBack, contentDescription = "back button"
                         )
-                   }
+                    }
                 },
                 title = {
                     Text(
@@ -74,15 +74,19 @@ fun HistoryScreen(navHostController: NavHostController) {
                     )
                 })
         }
-    ) {
+    ) { contentPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Bg)
-                .padding(vertical = it.calculateTopPadding(), horizontal = 16.dp)
+                .padding(contentPadding)
         ) {
 
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)
+            ) {
                 items(historyList) { history ->
                     CardHistory(
                         petName = history.petName,
@@ -95,32 +99,30 @@ fun HistoryScreen(navHostController: NavHostController) {
     }
 }
 
-
-
 @Composable
 fun CardHistory(petName: String, diagnoseResult: String, date: String) {
-
-        Card(
-            colors = CardColors(
-                containerColor = Color.White,
-                contentColor = Color.Black,
-                disabledContentColor = Color.Black,
-                disabledContainerColor = Color.Black,
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-                .border(BorderStroke(2.dp, Color.Black), shape = RoundedCornerShape(12.dp))
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(text = petName, style = MaterialTheme.typography.headlineSmall)
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = diagnoseResult, style = MaterialTheme.typography.bodyMedium)
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = date, style = MaterialTheme.typography.bodySmall)
-            }
+    Card(
+        colors = CardColors(
+            containerColor = Color.White,
+            contentColor = Color.Black,
+            disabledContentColor = Color.Black,
+            disabledContainerColor = Color.Black,
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+            .border(BorderStroke(2.dp, Color.Black), shape = RoundedCornerShape(12.dp))
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = petName, style = MaterialTheme.typography.headlineSmall)
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = diagnoseResult, style = MaterialTheme.typography.bodyMedium)
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = date, style = MaterialTheme.typography.bodySmall)
         }
     }
+}
+
 
 @Preview
 @Composable
