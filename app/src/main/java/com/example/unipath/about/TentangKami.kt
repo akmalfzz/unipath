@@ -128,7 +128,7 @@ fun TentangScreen(
             
             Text(
                 textAlign = TextAlign.Center,
-                text = "© UniPath by Akmal Fauzan"
+                text = "© UniPath by Akmal Fauzan", color = Color.Black
             )
         }
     }
