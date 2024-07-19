@@ -4,20 +4,20 @@ import com.example.unipath.utils.SupabaseClient
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.query.Columns
 
-class GejalaRepository {
+class MinatRepository {
     private val supabase = SupabaseClient.client
 
-    suspend fun getData(): List<Gejala> {
+    suspend fun getData(): List<Minat> {
         return  supabase
             .from("minat")
             .select(Columns.ALL)
-            .decodeList<Gejala>()
+            .decodeList<Minat>()
     }
 
-    suspend fun getGejalaPenyakit(): List<GejalaPenyakit> {
+    suspend fun getMinatJurusan(): List<MinatJurusan> {
         return supabase
             .from("jurusan_minat")
             .select(Columns.ALL)
-            .decodeList<GejalaPenyakit>()
+            .decodeList<MinatJurusan>()
     }
 }

@@ -32,8 +32,9 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+@JvmOverloads
 @Composable
-fun CatcareexpertsystemTheme(
+fun UnipathTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit

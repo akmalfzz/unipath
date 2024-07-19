@@ -9,12 +9,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -39,8 +37,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.unipath.route.Graph
 import com.example.unipath.ui.theme.Bg
-import com.example.unipath.ui.theme.CatcareexpertsystemTheme
-import com.example.unipath.ui.theme.Primary
+import com.example.unipath.ui.theme.UnipathTheme
 import com.example.unipath.ui.theme.Tombol
 
 
@@ -61,8 +58,8 @@ fun QuestionScreen(navController: NavHostController) {
         currentQuestion?.let {
             QuestionCard(
                 question = it,
-                onYesClick = { viewmodel.answerQuestion(it.gejalaCode, 1.0) },
-                onNoClick = { viewmodel.answerQuestion(it.gejalaCode, cf = 0.0) }
+                onYesClick = { viewmodel.answerQuestion(it.minatCode, 1.0) },
+                onNoClick = { viewmodel.answerQuestion(it.minatCode, cf = 0.0) }
             )
         }
         if (currentQuestionIndex > question.size - 1 && isFinish){
@@ -75,8 +72,8 @@ fun QuestionScreen(navController: NavHostController) {
 @Composable
 fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navController: NavHostController) {
     val context = LocalContext.current
-    val sharedPreferences = context.getSharedPreferences("PetPreferences", Context.MODE_PRIVATE)
-    val petName = sharedPreferences.getString("temp_pet_name", "Unknown") ?: "Unknown"
+    val sharedPreferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
+    val userName = sharedPreferences.getString("temp_user_name", "Unknown") ?: "Unknown"
 
     val highestResult = results.maxByOrNull { it.cf }
 
@@ -94,7 +91,7 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
                     text = buildAnnotatedString {
                         append("Jurusan yang cocok adalah")
                         append("\n")
-                        append("${it.penyakit} (${"%.2f".format(it.cf)}%)")
+                        append("${it.jurusan} (${"%.2f".format(it.cf)}%)")
                     },
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier,
@@ -129,7 +126,7 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
             ) {
                 results.forEach { result ->
                     Text(
-                        text = "${result.penyakit} : ${"%.2f".format(result.cf)}%",
+                        text = "${result.jurusan} : ${"%.2f".format(result.cf)}%",
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier
                             .padding(start = 10.dp, end = 10.dp)
@@ -157,7 +154,7 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
 
         Button(
             onClick = {
-                viewModel.saveDiagnoseResult(context, petName)
+                viewModel.saveDiagnoseResult(context, userName = userName)
                 navController.navigate(Graph.SCREEN_HISTORY)
             },
             shape = RoundedCornerShape(10.dp),
@@ -172,7 +169,7 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
 }
 
 @Composable
-fun QuestionCard(question: Gejala, onYesClick: () -> Unit, onNoClick: () -> Unit) {
+fun QuestionCard(question: Minat, onYesClick: () -> Unit, onNoClick: () -> Unit) {
 
     Column(
         modifier = Modifier
@@ -194,7 +191,7 @@ fun QuestionCard(question: Gejala, onYesClick: () -> Unit, onNoClick: () -> Unit
                 modifier = Modifier
                     .padding(20.dp),
             ) {
-                Text(text = question.gejalaName, style = MaterialTheme.typography.headlineSmall)
+                Text(text = question.minatName, style = MaterialTheme.typography.headlineSmall)
                 Spacer(modifier = Modifier.height(20.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -223,7 +220,7 @@ fun QuestionCard(question: Gejala, onYesClick: () -> Unit, onNoClick: () -> Unit
 @Preview
 @Composable
 fun PreviewQuestionView() {
-    CatcareexpertsystemTheme {
+    UnipathTheme {
         QuestionScreen(rememberNavController())
     }
 }

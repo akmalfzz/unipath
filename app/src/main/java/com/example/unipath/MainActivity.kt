@@ -12,20 +12,20 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
 import com.example.unipath.home.HomeScreenItems
-import com.example.unipath.penyakit.PenyakitViewModel
+import com.example.unipath.jurusan.JurusanViewModel
 import com.example.unipath.route.RootNav
-import com.example.unipath.ui.theme.CatcareexpertsystemTheme
+import com.example.unipath.ui.theme.UnipathTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val penyakitViewModel: PenyakitViewModel = ViewModelProvider(this)[PenyakitViewModel::class.java]
+        val jurusanViewModel: JurusanViewModel = ViewModelProvider(this)[JurusanViewModel::class.java]
         setContent {
-            CatcareexpertsystemTheme {
+            UnipathTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column(modifier = Modifier.padding(innerPadding)) {
-                        RootNav(navController = rememberNavController(), penyakitViewModel =  penyakitViewModel, items = HomeScreenItems(image = R.drawable.unipath))
+                        RootNav(navController = rememberNavController(), jurusanViewModel =  jurusanViewModel, items = HomeScreenItems(image = R.drawable.unipath))
                     }
                 }
             }

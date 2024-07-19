@@ -4,29 +4,29 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 data class Answer(
-    val gejalaCode: String,
+    val minatCode: String,
     val cf:Double
 )
 
 @Serializable
 data class Result(
-    val penyakit: String,
+    val jurusan: String,
     val cf: Double
 )
 @Serializable
-data class Gejala(
+data class Minat(
     @SerialName("minat_code")
-    val gejalaCode: String,
+    val minatCode: String,
     @SerialName("minat_name")
-    val gejalaName: String
+    val minatName: String
 )
 
 @Serializable
-data class GejalaPenyakit(
+data class MinatJurusan(
     @SerialName("minat_code")
-    val gejalaCode: String,
+    val minatCode: String,
     @SerialName("jurusan_code")
-    val penyakitCode: String,
+    val jurusanCode: String,
     @SerialName("certainty_factor")
     val nilaiCf: Double,
 )

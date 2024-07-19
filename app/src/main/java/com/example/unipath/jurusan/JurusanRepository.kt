@@ -1,16 +1,16 @@
-package com.example.unipath.penyakit
+package com.example.unipath.jurusan
 
 import com.example.unipath.utils.SupabaseClient
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.query.Columns
 
-class PenyakitRepository {
+class JurusanRepository {
     private val supabase = SupabaseClient.client
 
-    suspend fun getData(): List<Penyakit> {
+    suspend fun getData(): List<Jurusan> {
         return  supabase
             .from("jurusan")
             .select(columns = Columns.ALL)
-            .decodeList<Penyakit>()
+            .decodeList<Jurusan>()
     }
 }

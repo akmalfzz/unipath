@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -46,8 +45,7 @@ import com.example.unipath.R
 import com.example.unipath.home.HomeScreenItems
 import com.example.unipath.route.Graph
 import com.example.unipath.ui.theme.Bg
-import com.example.unipath.ui.theme.ButtonPrimary
-import com.example.unipath.ui.theme.CatcareexpertsystemTheme
+import com.example.unipath.ui.theme.UnipathTheme
 import com.example.unipath.ui.theme.Primary
 import com.example.unipath.ui.theme.Tombol
 import androidx.compose.material3.IconButton
@@ -55,7 +53,7 @@ import androidx.compose.material3.IconButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InputpetNameScreen(navController: NavHostController, items: HomeScreenItems) {
+fun InputuserNameScreen(navController: NavHostController, items: HomeScreenItems) {
     val context = LocalContext.current
     val viewmodel: DiagnoseViewmodel = viewModel()
     var text by remember { mutableStateOf("") }
@@ -124,7 +122,7 @@ fun InputpetNameScreen(navController: NavHostController, items: HomeScreenItems)
 
                     Button(onClick = {
                         viewmodel.clearResults()
-                        savePetName(context,text,navController)
+                        saveUserName(context,text,navController)
                                      },
                         colors = ButtonDefaults.buttonColors(Tombol),
                         shape = RoundedCornerShape(10.dp),
@@ -138,18 +136,18 @@ fun InputpetNameScreen(navController: NavHostController, items: HomeScreenItems)
 
     }
 }
-fun savePetName(context: Context, petName: String, navController: NavHostController) {
-    val sharedPreferences = context.getSharedPreferences("PetPreferences", Context.MODE_PRIVATE)
+fun saveUserName(context: Context, userName: String, navController: NavHostController) {
+    val sharedPreferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
     val editor = sharedPreferences.edit()
-    editor.putString("temp_pet_name", petName)
+    editor.putString("temp_user_name", userName)
     editor.apply()
     navController.navigate(Graph.SCREEN_QUESTION)
 }
 @Preview
 @Composable
-private fun InputFormPet() {
-    CatcareexpertsystemTheme {
-        InputpetNameScreen(rememberNavController(),
+private fun InputFormUser() {
+    UnipathTheme {
+        InputuserNameScreen(rememberNavController(),
             items = HomeScreenItems(image = R.drawable.unipath)
         )
     }

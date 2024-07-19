@@ -3,7 +3,6 @@ package com.example.unipath.history
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,8 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.unipath.diagnose.DiagnoseViewmodel
 import com.example.unipath.ui.theme.Bg
-import com.example.unipath.ui.theme.CatcareexpertsystemTheme
-import com.example.unipath.ui.theme.Primary
+import com.example.unipath.ui.theme.UnipathTheme
 import androidx.compose.material3.IconButton
 import androidx.navigation.NavHostController
 import com.example.unipath.route.Graph
@@ -89,7 +87,7 @@ fun HistoryScreen(navHostController: NavHostController) {
             ) {
                 items(historyList) { history ->
                     CardHistory(
-                        petName = history.petName,
+                        userName = history.userName,
                         diagnoseResult = history.diagnoseResult,
                         date = history.date
                     )
@@ -100,7 +98,7 @@ fun HistoryScreen(navHostController: NavHostController) {
 }
 
 @Composable
-fun CardHistory(petName: String, diagnoseResult: String, date: String) {
+fun CardHistory(userName: String, diagnoseResult: String, date: String) {
     Card(
         colors = CardColors(
             containerColor = Color.White,
@@ -114,7 +112,7 @@ fun CardHistory(petName: String, diagnoseResult: String, date: String) {
             .border(BorderStroke(2.dp, Color.Black), shape = RoundedCornerShape(12.dp))
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = petName, style = MaterialTheme.typography.headlineSmall)
+            Text(text = userName, style = MaterialTheme.typography.headlineSmall)
             Spacer(modifier = Modifier.height(4.dp))
             Text(text = diagnoseResult, style = MaterialTheme.typography.bodyMedium)
             Spacer(modifier = Modifier.height(4.dp))
@@ -127,7 +125,7 @@ fun CardHistory(petName: String, diagnoseResult: String, date: String) {
 @Preview
 @Composable
 fun HistoryScreenPreview() {
-    CatcareexpertsystemTheme {
+    UnipathTheme {
 
     }
 }

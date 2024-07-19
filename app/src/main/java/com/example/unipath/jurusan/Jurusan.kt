@@ -1,16 +1,16 @@
-package com.example.unipath.penyakit
+package com.example.unipath.jurusan
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Penyakit(
+data class Jurusan(
     @SerialName("jurusan_id")
-    val penyakitId: Int,
+    val jurusanId: Int,
     @SerialName("jurusan_code")
-    val penyakitCode: String,
+    val jurusanCode: String,
     @SerialName("jurusan_name")
-    val penyakit: String,
+    val jurusan: String,
     @SerialName("deskripsi")
     val deskripsi: String
 )

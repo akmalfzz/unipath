@@ -1,3 +1,3 @@
 package com.example.unipath.history
 
-data class DiagnosesHistory(val petName: String, val diagnoseResult: String, val date: String)
+data class DiagnosesHistory(val userName: String, val diagnoseResult: String, val date: String)

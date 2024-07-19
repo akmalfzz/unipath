@@ -5,8 +5,8 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.unipath.history.DiagnosesHistory
-import com.example.unipath.penyakit.Penyakit
-import com.example.unipath.penyakit.PenyakitRepository
+import com.example.unipath.jurusan.Jurusan
+import com.example.unipath.jurusan.JurusanRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -15,25 +15,25 @@ import java.util.Date
 import java.util.Locale
 
 class DiagnoseViewmodel : ViewModel() {
-    private val repository = GejalaRepository()
-    private val repositoryPenyakit = PenyakitRepository()
-    private val _quetion = MutableStateFlow<List<Gejala>>(emptyList())
-    val quetion: StateFlow<List<Gejala>> = _quetion
+    private val repository = MinatRepository()
+    private val repositoryJurusan = JurusanRepository()
+    private val _quetion = MutableStateFlow<List<Minat>>(emptyList())
+    val quetion: StateFlow<List<Minat>> = _quetion
     private  val _isFinish =  MutableStateFlow(false)
     val isFinish : StateFlow<Boolean> = _isFinish
 
     private val _currentQuestionIndex = MutableStateFlow(0)
     val currentQuestionIndex: StateFlow<Int> = _currentQuestionIndex
 
-    private val _gejalaPenyakit = MutableStateFlow<List<GejalaPenyakit>>(emptyList())
-    private val _penyakit = MutableStateFlow<List<Penyakit>>(emptyList())
+    private val _minatJurusan = MutableStateFlow<List<MinatJurusan>>(emptyList())
+    private val _jurusan = MutableStateFlow<List<Jurusan>>(emptyList())
 
     private val _results = MutableStateFlow<List<Result>>(emptyList())
     val results: StateFlow<List<Result>> = _results
     init {
         fetchQuestion()
-        fetchPenyakit()
-        fetchGejalaPenyakit()
+        fetchJurusan()
+        fetchMinatJurusan()
     }
 
     private val _answer = MutableStateFlow<List<Answer>>(emptyList())
@@ -46,17 +46,17 @@ class DiagnoseViewmodel : ViewModel() {
         }
     }
 
-    private fun fetchGejalaPenyakit() {
+    private fun fetchMinatJurusan() {
         viewModelScope.launch {
-            val result = repository.getGejalaPenyakit()
-            _gejalaPenyakit.value = result
+            val result = repository.getMinatJurusan()
+            _minatJurusan.value = result
         }
     }
 
-    private fun fetchPenyakit() {
+    private fun fetchJurusan() {
         viewModelScope.launch {
-            val result = repositoryPenyakit.getData()
-            _penyakit.value = result
+            val result = repositoryJurusan.getData()
+            _jurusan.value = result
         }
     }
     fun answerQuestion(questionCode: String, cf: Double) {
@@ -72,24 +72,24 @@ class DiagnoseViewmodel : ViewModel() {
 
     private fun calculateCF() {
         val answers = _answer.value
-        val penyakitCFMap = mutableMapOf<String, MutableList<Double>>()
+        val jurusanCFMap = mutableMapOf<String, MutableList<Double>>()
 
         for (answer in answers) {
-            val gejalaPenyakit = _gejalaPenyakit.value.filter { it.gejalaCode == answer.gejalaCode }
-            for (gp in gejalaPenyakit) {
+            val minatJurusan = _minatJurusan.value.filter { it.minatCode == answer.minatCode }
+            for (gp in minatJurusan) {
                 val cfValue = gp.nilaiCf * answer.cf
-                if (penyakitCFMap.containsKey(gp.penyakitCode)) {
-                    penyakitCFMap[gp.penyakitCode]?.add(cfValue)
+                if (jurusanCFMap.containsKey(gp.jurusanCode)) {
+                    jurusanCFMap[gp.jurusanCode]?.add(cfValue)
                 } else {
-                    penyakitCFMap[gp.penyakitCode] = mutableListOf(cfValue)
+                    jurusanCFMap[gp.jurusanCode] = mutableListOf(cfValue)
                 }
             }
         }
 
-        val results = penyakitCFMap.map { (penyakitCode, cfList) ->
-            val penyakitName = _penyakit.value.find { it.penyakitCode == penyakitCode }?.penyakit ?: "Unknown"
+        val results = jurusanCFMap.map { (jurusanCode, cfList) ->
+            val jurusanName = _jurusan.value.find { it.jurusanCode == jurusanCode }?.jurusan ?: "Unknown"
             val combinedCF = combineCFSequentially(cfList)
-            Result(penyakitName, combinedCF * 100)
+            Result(jurusanName, combinedCF * 100)
         }.sortedByDescending { it.cf }
 
         _results.value = results
@@ -115,20 +115,20 @@ class DiagnoseViewmodel : ViewModel() {
     }
 
     @SuppressLint("MutatingSharedPrefs")
-    fun saveDiagnoseResult(context: Context, petName: String) {
+    fun saveDiagnoseResult(context: Context, userName: String) {
         val highestResult = _results.value.maxByOrNull {it.cf}
         val highestCf = highestResult?.cf ?:0.0
         val diagnoseResult = if (highestCf == 0.0){
             "Tidak Cocok"
         }else{
-            highestResult?.penyakit ?: "Unknown"
+            highestResult?.jurusan ?: "Unknown"
         }
         val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 
         // Save to SharedPreferences
         val sharedPreferences = context.getSharedPreferences("DiagnoseHistory", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        val newEntry = "$petName|$diagnoseResult|$date"
+        val newEntry = "$userName|$diagnoseResult|$date"
         val existingEntries = sharedPreferences.getStringSet("history", mutableSetOf()) ?: mutableSetOf()
         val newEntries = existingEntries.toMutableSet()
         newEntries.add(newEntry)
