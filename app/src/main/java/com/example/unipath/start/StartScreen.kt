@@ -1,7 +1,6 @@
-package com.example.unipath.home
+package com.example.unipath.start
 
 import android.media.MediaPlayer
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,17 +21,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.unipath.R
+import com.example.unipath.home.HomeScreenItems
 import com.example.unipath.route.Graph
-import com.example.unipath.ui.theme.UnipathTheme
 import com.example.unipath.ui.theme.Bg
+import com.example.unipath.ui.theme.Tombol
+import com.example.unipath.ui.theme.UnipathTheme
 
 @Composable
-fun HomeScreen(
+fun StartScreen(
     navHostController: NavHostController,
     items: HomeScreenItems
 ) {
@@ -43,74 +50,48 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Bg)
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 16.dp)
-            .padding(30.dp),
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
             modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(bottom = 30.dp),
+                .align(Alignment.CenterHorizontally),
             painter = painterResource(items.image),
             contentDescription = "unipath",
         )
 
+        Text(
+            textAlign = TextAlign.Left,
+            text = buildAnnotatedString {
+                append("Find Your Passion,")
+                append("\n")
+                append("Shape Your")
+                append("\n")
+                append("Future.")
+            },
+            style = TextStyle(
+                fontFamily = FontFamily.SansSerif,
+                fontSize = 40.sp,
+            ),
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .padding(bottom = 50.dp),
+            color = Color.Black,
+            )
+        
         Button(
             onClick = {
                 mediaPlayer.start()
-                navHostController.navigate(Graph.SCREEN_USER_NAME) },
-            colors = ButtonDefaults.buttonColors(Bg),
-            border = BorderStroke(2.dp, Color.Black),
+                navHostController.navigate(Graph.HOME) },
+            colors = ButtonDefaults.buttonColors(Tombol),
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 30.dp)
+                .padding(horizontal = 30.dp)
         ) {
-            Text(text = "Mulai Tes", color = Color.Black)
-        }
-
-        Button(
-            onClick = {
-                mediaPlayer.start()
-                navHostController.navigate(Graph.SCREEN_JURUSAN) },
-            colors = ButtonDefaults.buttonColors(Bg),
-            border = BorderStroke(2.dp, Color.Black),
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 30.dp)
-        ) {
-            Text(text = "Deskripsi Jurusan", color = Color.Black)
-        }
-
-        Button(
-            onClick = {
-                mediaPlayer.start()
-                navHostController.navigate(Graph.SCREEN_HISTORY) },
-            colors = ButtonDefaults.buttonColors(Bg),
-            border = BorderStroke(2.dp, Color.Black),
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 30.dp)
-        ) {
-            Text(text = "Riwayat Tes", color = Color.Black)
-        }
-
-        Button(
-            onClick = {
-                mediaPlayer.start()
-                navHostController.navigate(Graph.SCREEN_TENTANG) },
-            colors = ButtonDefaults.buttonColors(Bg),
-            border = BorderStroke(2.dp, Color.Black),
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 30.dp)
-        ) {
-            Text(text = "Tentang Kami", color = Color.Black)
+            Text(text = "Masuk", color = Color.White)
         }
     }
 }
@@ -120,7 +101,7 @@ fun HomeScreen(
 @Composable
 private fun HomePreview() {
     UnipathTheme {
-        HomeScreen(
+        StartScreen(
             navHostController = rememberNavController(),
             items = HomeScreenItems(image = R.drawable.unipath)
         )

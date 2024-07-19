@@ -1,6 +1,7 @@
 package com.example.unipath.diagnose
 
 import android.content.Context
+import android.media.MediaPlayer
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -24,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.unipath.R
 import com.example.unipath.route.Graph
 import com.example.unipath.ui.theme.Bg
 import com.example.unipath.ui.theme.UnipathTheme
@@ -72,6 +75,8 @@ fun QuestionScreen(navController: NavHostController) {
 @Composable
 fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navController: NavHostController) {
     val context = LocalContext.current
+    val mediaPlayer1 = remember { MediaPlayer.create(context, R.raw.button) }
+    val mediaPlayer2 = remember { MediaPlayer.create(context, R.raw.click) }
     val sharedPreferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
     val userName = sharedPreferences.getString("temp_user_name", "Unknown") ?: "Unknown"
 
@@ -79,8 +84,8 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
 
     Column(
         modifier = Modifier
-        .fillMaxSize()
-        .verticalScroll(rememberScrollState()),
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -129,6 +134,7 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
                         text = "${result.jurusan} : ${"%.2f".format(result.cf)}%",
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier
+                            .fillMaxSize()
                             .padding(start = 10.dp, end = 10.dp)
                             .padding(top = 5.dp, bottom = 5.dp),
                         color = Color.Black
@@ -140,7 +146,9 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
         Spacer(modifier = Modifier.height(10.dp))
 
         Button(
-            onClick = { navController.navigate(Graph.SCREEN_QUESTION) },
+            onClick = {
+                mediaPlayer1.start()
+                navController.navigate(Graph.SCREEN_QUESTION) },
             colors = ButtonDefaults.buttonColors(Bg),
             border = BorderStroke(2.dp, Color.Black),
             shape = RoundedCornerShape(10.dp),
@@ -154,6 +162,7 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
 
         Button(
             onClick = {
+                mediaPlayer2.start()
                 viewModel.saveDiagnoseResult(context, userName = userName)
                 navController.navigate(Graph.SCREEN_HISTORY)
             },
@@ -170,6 +179,8 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
 
 @Composable
 fun QuestionCard(question: Minat, onYesClick: () -> Unit, onNoClick: () -> Unit) {
+    val context = LocalContext.current
+    val mediaPlayer = remember { MediaPlayer.create(context, R.raw.score) }
 
     Column(
         modifier = Modifier
@@ -198,14 +209,20 @@ fun QuestionCard(question: Minat, onYesClick: () -> Unit, onNoClick: () -> Unit)
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Button(
-                        onClick = onNoClick,
+                        onClick = {
+                            mediaPlayer.start()
+                            onNoClick()
+                                  },
                         shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(Tombol)
                     ) {
                         Text(text = "Tidak", color = Color.White)
                     }
                     Button(
-                        onClick = onYesClick,
+                        onClick = {
+                            mediaPlayer.start()
+                            onYesClick()
+                                  },
                         shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(Tombol)
                     ) {

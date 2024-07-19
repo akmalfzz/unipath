@@ -1,6 +1,7 @@
 package com.example.unipath.diagnose
 
 import android.content.Context
+import android.media.MediaPlayer
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -56,6 +57,8 @@ import androidx.compose.material3.IconButton
 fun InputuserNameScreen(navController: NavHostController, items: HomeScreenItems) {
     val context = LocalContext.current
     val viewmodel: DiagnoseViewmodel = viewModel()
+    val mediaPlayer1 = remember { MediaPlayer.create(context, R.raw.button) }
+    val mediaPlayer2 = remember { MediaPlayer.create(context, R.raw.click) }
     var text by remember { mutableStateOf("") }
     Scaffold(
         topBar = {
@@ -68,7 +71,9 @@ fun InputuserNameScreen(navController: NavHostController, items: HomeScreenItems
                     actionIconContentColor = Color.Black
                 ),
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigate(Graph.HOME) }) {
+                    IconButton(onClick = {
+                        mediaPlayer2.start()
+                        navController.navigate(Graph.HOME) }) {
                         
 
                     Icon(
@@ -121,6 +126,7 @@ fun InputuserNameScreen(navController: NavHostController, items: HomeScreenItems
                     )
 
                     Button(onClick = {
+                        mediaPlayer1.start()
                         viewmodel.clearResults()
                         saveUserName(context,text,navController)
                                      },

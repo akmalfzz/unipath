@@ -1,5 +1,6 @@
 package com.example.unipath.jurusan
 
+import android.media.MediaPlayer
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -34,13 +35,18 @@ import com.example.unipath.ui.theme.UnipathTheme
 import com.example.unipath.ui.theme.Primary
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.unipath.R
 import com.example.unipath.route.Graph
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListJurusanScreen(listJurusan: List<Jurusan>, navHostController: NavHostController) {
+    val context = LocalContext.current
+    val mediaPlayer = remember { MediaPlayer.create(context, R.raw.click) }
 
     Scaffold(
         topBar = {
@@ -52,7 +58,9 @@ fun ListJurusanScreen(listJurusan: List<Jurusan>, navHostController: NavHostCont
                     actionIconContentColor = Color.Black
                 ),
                 navigationIcon = {
-                    IconButton(onClick = { navHostController.navigate(Graph.HOME) }) {
+                    IconButton(onClick = {
+                        mediaPlayer.start()
+                        navHostController.navigate(Graph.HOME) }) {
                         Icon(
                             modifier = Modifier
                                 .width(32.dp)
@@ -127,9 +135,9 @@ fun ListJurusanScreenPreview() {
     UnipathTheme {
 
         val sampleHistory = listOf(
-            Jurusan(1, "p1", "Cacingan", "banyak cacing"),
-            Jurusan(1, "p1", "Cacingan", "banyak cacing"),
-            Jurusan(1, "p1", "Cacingan", "banyak cacing"),
+            Jurusan(1, "j1", "Teknik Informatika", "TI"),
+            Jurusan(1, "j1", "Teknik Informatika", "TI"),
+            Jurusan(1, "j1", "Teknik Informatika", "TI"),
         )
         val mockNavController = rememberNavController()
         ListJurusanScreen(listJurusan = sampleHistory, navHostController = mockNavController)

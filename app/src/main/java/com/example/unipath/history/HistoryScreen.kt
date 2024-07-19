@@ -1,5 +1,6 @@
 package com.example.unipath.history
 
+import android.media.MediaPlayer
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -35,7 +36,9 @@ import com.example.unipath.diagnose.DiagnoseViewmodel
 import com.example.unipath.ui.theme.Bg
 import com.example.unipath.ui.theme.UnipathTheme
 import androidx.compose.material3.IconButton
+import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
+import com.example.unipath.R
 import com.example.unipath.route.Graph
 
 
@@ -43,6 +46,7 @@ import com.example.unipath.route.Graph
 @Composable
 fun HistoryScreen(navHostController: NavHostController) {
     val context = LocalContext.current
+    val mediaPlayer = remember { MediaPlayer.create(context, R.raw.click) }
     val viewModel: DiagnoseViewmodel = viewModel()
     val historyList = viewModel.getDiagnoseHistory(context)
 
@@ -56,7 +60,9 @@ fun HistoryScreen(navHostController: NavHostController) {
                     actionIconContentColor = Color.Black
                 ),
                 navigationIcon = {
-                    IconButton(onClick = { navHostController.navigate(Graph.HOME) }) {
+                    IconButton(onClick = {
+                        mediaPlayer.start()
+                        navHostController.navigate(Graph.HOME) }) {
                         Icon(
                             modifier = Modifier
                                 .width(32.dp)
