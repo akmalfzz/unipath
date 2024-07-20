@@ -3,6 +3,7 @@ package com.example.unipath.diagnose
 import android.content.Context
 import android.media.MediaPlayer
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -21,6 +23,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,10 +34,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -56,7 +63,7 @@ fun QuestionScreen(navController: NavHostController) {
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Bg)
-        .padding(20.dp)
+        .padding(10.dp)
     ) {
         currentQuestion?.let {
             QuestionCard(
@@ -92,58 +99,49 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
         highestResult?.let {
             if (it.cf > 0){
                 Text(
+
+                    text = "Jurusan yang cocok adalah",
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier
+                        .padding(top = 70.dp, bottom = 20.dp),
+                    color = Color.Black
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.person),
+                    contentDescription = "image",
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .fillMaxSize()
+                )
+                Text(
                     textAlign = TextAlign.Center,
-                    text = buildAnnotatedString {
-                        append("Jurusan yang cocok adalah")
-                        append("\n")
-                        append("${it.jurusan} (${"%.2f".format(it.cf)}%)")
-                    },
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier,
+                    text = "${it.jurusan}",
+                    style = MaterialTheme.typography.headlineLarge,
+                    modifier = Modifier
+                        .padding(top = 30.dp, bottom = 20.dp),
                     color = Color.Black
                 )
             }else{
                 Text(
                     textAlign = TextAlign.Center,
                     text = "Tidak ada jurusan yang cocok",
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier,
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier
+                        .padding(top = 70.dp, bottom = 30.dp),
                     color = Color.Black
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.person),
+                    contentDescription = "image",
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .fillMaxSize()
+                        .padding(bottom = 10.dp)
                 )
             }
         }
 
-        Column(
-            modifier = Modifier,
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Card(
-                colors = CardColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black,
-                    disabledContentColor = Color.Black,
-                    disabledContainerColor = Color.Black,
-                ),
-                modifier = Modifier
-                    .padding(20.dp)
-                    .border(BorderStroke(2.dp, Color.Black), shape = RoundedCornerShape(10.dp))
-            ) {
-                results.forEach { result ->
-                    Text(
-                        text = "${result.jurusan} : ${"%.2f".format(result.cf)}%",
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(start = 10.dp, end = 10.dp)
-                            .padding(top = 5.dp, bottom = 5.dp),
-                        color = Color.Black
-                    )
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(30.dp))
 
         Button(
             onClick = {
@@ -174,6 +172,62 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
             Text(text = "Simpan Hasil", color = Color.White)
         }
 
+        Spacer(modifier = Modifier.height(16.dp))
+        Divider(color = Color.Black, thickness = 3.dp)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Column(
+            modifier = Modifier,
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "Hasil Tes",
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier,
+                color = Color.Black)
+            Card(
+                colors = CardColors(
+                    containerColor = Color.Black,
+                    contentColor = Color.Black,
+                    disabledContentColor = Color.Black,
+                    disabledContainerColor = Color.Black,
+                ),
+                modifier = Modifier
+                    .padding(top = 20.dp, bottom = 20.dp)
+                    .border(BorderStroke(2.dp, Color.Black), shape = RoundedCornerShape(10.dp))
+            ) {
+                results.forEach { result ->
+                    Card(
+                        shape = RoundedCornerShape(8.dp),
+                        colors = CardColors(
+                            containerColor = Color.White,
+                            contentColor = Color.Black,
+                            disabledContentColor = Color.Black,
+                            disabledContainerColor = Color.Black,
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 1.dp)
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .padding(5.dp)
+                        ) {
+                            Text(
+                                text = "${result.jurusan} : ${"%.2f".format(result.cf)}%",
+                                style = MaterialTheme.typography.bodyLarge,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(start = 10.dp, end = 10.dp)
+                                    .padding(top = 5.dp, bottom = 5.dp),
+                                color = Color.Black
+                            )
+                        }
+                    }
+                }
+            }
+            }
     }
 }
 
