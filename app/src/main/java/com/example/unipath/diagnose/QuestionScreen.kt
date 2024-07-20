@@ -99,8 +99,8 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
         highestResult?.let {
             if (it.cf > 0){
                 Text(
-
                     text = "Jurusan yang cocok adalah",
+                    textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier
                         .padding(top = 70.dp, bottom = 20.dp),
@@ -114,8 +114,8 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
                         .fillMaxSize()
                 )
                 Text(
-                    textAlign = TextAlign.Center,
                     text = "${it.jurusan}",
+                    textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.headlineLarge,
                     modifier = Modifier
                         .padding(top = 30.dp, bottom = 20.dp),
@@ -123,8 +123,8 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
                 )
             }else{
                 Text(
-                    textAlign = TextAlign.Center,
                     text = "Tidak ada jurusan yang cocok",
+                    textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier
                         .padding(top = 80.dp, bottom = 50.dp),
@@ -152,6 +152,7 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(horizontal = 30.dp)
         ) {
             Text(text = "Tes Ulang", color = Color.Black)
         }
@@ -168,12 +169,13 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
             colors = ButtonDefaults.buttonColors(Tombol),
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(horizontal = 30.dp)
         ) {
             Text(text = "Simpan Hasil", color = Color.White)
         }
 
         Spacer(modifier = Modifier.height(30.dp))
-        Divider(color = Color.Black, thickness = 3.dp)
+        Divider(color = Color.Black, thickness = 2.dp)
         Spacer(modifier = Modifier.height(30.dp))
 
         Column(

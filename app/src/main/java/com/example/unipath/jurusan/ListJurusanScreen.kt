@@ -115,7 +115,7 @@ fun CardListJurusan(jurusanName: String, deskripsi: String) {
         ),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(vertical = 8.dp)
             .border(BorderStroke(2.dp, Primary), shape = RoundedCornerShape(12.dp))
     ) {
         Column(
