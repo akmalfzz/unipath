@@ -101,7 +101,7 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
                 Text(
 
                     text = "Jurusan yang cocok adalah",
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier
                         .padding(top = 70.dp, bottom = 20.dp),
                     color = Color.Black
@@ -125,9 +125,9 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
                 Text(
                     textAlign = TextAlign.Center,
                     text = "Tidak ada jurusan yang cocok",
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier
-                        .padding(top = 70.dp, bottom = 30.dp),
+                        .padding(top = 80.dp, bottom = 50.dp),
                     color = Color.Black
                 )
                 Image(
@@ -136,12 +136,12 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .fillMaxSize()
-                        .padding(bottom = 10.dp)
+                        .padding(bottom = 50.dp)
                 )
             }
         }
 
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Button(
             onClick = {
@@ -172,9 +172,9 @@ fun ResultScreen(results: List<Result>, viewModel: DiagnoseViewmodel, navControl
             Text(text = "Simpan Hasil", color = Color.White)
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(30.dp))
         Divider(color = Color.Black, thickness = 3.dp)
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(30.dp))
 
         Column(
             modifier = Modifier,
